@@ -5,14 +5,14 @@ import akka.stream.scaladsl.Flow
 object FilterElements {
 
   object DelayLineFlow {
-    def apply(delay: Int, scalaFactor: Double) = {
+    def apply(delay: Int, scaleFactor: Double) = {
       val eq = Array.fill(delay)(0.0d)
       var idx = 0
       Flow.fromFunction[(Double, Double), (Double, Double)] { case (sample, ff) =>
         val delayedSample = eq(idx)
         eq(idx) = sample
         idx = (idx + 1) % delay
-        (delayedSample, ff + delayedSample * scalaFactor)
+        (delayedSample, ff + delayedSample * scaleFactor)
       }
     }
   }

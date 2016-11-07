@@ -1,3 +1,4 @@
-implement_a_delay_element
+chain_iir_and_fir
 
+## Simple chaining of (IIR and/or FIR) filters
 
