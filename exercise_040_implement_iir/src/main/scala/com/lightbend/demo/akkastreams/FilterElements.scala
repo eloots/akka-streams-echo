@@ -3,6 +3,7 @@ package com.lightbend.demo.akkastreams
 import akka.NotUsed
 import akka.stream.FlowShape
 import akka.stream.scaladsl.{Broadcast, Concat, Flow, GraphDSL, Source, Zip}
+import scala.collection.immutable.Iterable
 
 object FilterElements {
 
@@ -17,16 +18,12 @@ object FilterElements {
 
         val zip = b.add(Zip[Double, Double]())
         val bcast = b.add(Broadcast[Double](2))
-        // By experimentation:
-        // ... bcast ~> internalFir ~> concat doesn't work. Using an extra broadcast
-        // with a single output solves the problem.
-        // TODO: investigate why this solves the problem... There must be a fundamental cause at play...
-        val addBcast = b.add(Broadcast[Double](1))
+        val add = b.add(Flow[(Double, Double)].map { case (in, feedback) => in + feedback})
 
-        zip.out.map { case (in, feedback) => in + feedback} ~> bcast ~> internalFir ~> addBcast
-
-        zip.in1 <~ concat <~ start
-        concat <~ addBcast
+        // outside              ~>          zip.in0
+        start        ~> concat           ~> zip.in1; zip.out  ~> add ~> bcast
+                        concat.in(1)     <~ internalFir       <~        bcast.out(0)
+                                                                //      bcast.out(1) ~> outside
 
         FlowShape[Double, Double](zip.in0, bcast.out(1))
       })
@@ -81,24 +78,34 @@ object FilterElements {
 
   object DelayLineFlow {
     def apply(delay: Int, scalaFactor: Double) = {
-      val eq = Array.fill(delay)(0.0d)
-      var idx = 0
-      Flow.fromFunction[(Double, Double), (Double, Double)] { case (sample, ff) =>
-        val delayedSample = eq(idx)
-        eq(idx) = sample
-        idx = (idx + 1) % delay
-        (delayedSample, ff + delayedSample * scalaFactor)
+      Flow[(Double, Double)].statefulMapConcat { () =>
+        // mutable state needs to be kept inside the stage
+        val eq = Array.fill(delay)(0.0d)
+        var idx = 0
+
+        {
+          case (sample, ff) =>
+            val delayedSample = eq(idx)
+            eq(idx) = sample
+            idx = (idx + 1) % delay
+           Iterable((delayedSample, ff + delayedSample * scalaFactor))
+        }
       }
     }
   }
 
   object DelayLineFlowAlt {
     def apply(delay: Int, scaleFactor: Double) = {
-      val eq = MQueue(List.fill(delay)(0.0d): _*)
-      Flow.fromFunction[(Double, Double), (Double, Double)] { case (sample, ff) =>
-        eq.enqueue(sample)
-        val delayedSample = eq.dequeue()
-        (delayedSample, ff + delayedSample * scaleFactor)
+      Flow[(Double, Double)].statefulMapConcat { () =>
+        // mutable state needs to be kept inside the stage
+        val eq = MQueue(List.fill(delay)(0.0d): _*)
+
+        {
+          case (sample, ff) =>
+            eq.enqueue(sample)
+            val delayedSample = eq.dequeue()
+            Iterable((delayedSample, ff + delayedSample * scaleFactor))
+        }
       }
     }
   }
