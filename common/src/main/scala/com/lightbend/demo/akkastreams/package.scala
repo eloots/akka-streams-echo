@@ -13,6 +13,12 @@ package object akkastreams {
   type Seq[+A] = scala.collection.immutable.Seq[A]
   val Seq = scala.collection.immutable.Seq
 
+  type Iterable[+A] = scala.collection.immutable.Iterable[A]
+  val Iterable = scala.collection.immutable.Iterable
+
+//  type Iterator[+A] = scala.collection.immutable.Iterator[A]
+//  val Iterator = scala.collection.immutable.Iterator
+
   case class FilterStage(delay: Int, coefficient: Double)
 
   implicit class FilterStageOps(val s: (Int, Double)) extends AnyVal {
