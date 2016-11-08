@@ -3,7 +3,6 @@ package com.lightbend.demo.akkastreams
 import akka.NotUsed
 import akka.stream.FlowShape
 import akka.stream.scaladsl.{Broadcast, Concat, Flow, GraphDSL, Source, Zip}
-import scala.collection.immutable.Iterable
 
 object FilterElements {
 
@@ -40,18 +39,14 @@ object FilterElements {
     IIRFlow(buildFIR(adaptedStages, FirInitialZero()))
   }
 
-  def buildFIR(stages: Seq[FilterStage],
-               initialStage: Flow[Double, (Double, Double), NotUsed] = FirInitial()
-              ): Flow[Double, Double, NotUsed] = {
+  def buildFIR(stages: Seq[FilterStage], initialStage: Flow[Double, (Double, Double), NotUsed] = FirInitial()) = {
     require(stages.nonEmpty, "There should be at least one stage in an FIR filter")
     require(stages.forall { case FilterStage(n, _) => n >= 1}, "A filter stage should have at least a delay of one")
 
-    val FilterStage(firstStageDelay, firstStageCoef) = stages.head
-    val firstStage = DelayLineFlow(firstStageDelay, firstStageCoef)
-    val firCoreFLow = (stages.tail foldLeft firstStage) {
+    val firCoreFLow = (stages foldLeft initialStage) {
       case (flow, FilterStage(delay, coef)) => flow.via(DelayLineFlow(delay, coef))
     }
-    initialStage.via(firCoreFLow).via(FirSelectOut())
+    firCoreFLow.via(FirSelectOut())
   }
 
   object FirInitial {
