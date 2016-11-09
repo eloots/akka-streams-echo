@@ -8,7 +8,7 @@ object FIR extends App {
 
   // Make the Blueprint of the (FIR based) echo generator Flow
   val firBasedEcho =
-    FirInitialZero()
+    FirInitial()
       .via(DelayLineFlow(2000, -0.3))
       .via(DelayLineFlow(1500, -0.3))
       .via(DelayLineFlow(4500, -0.2))

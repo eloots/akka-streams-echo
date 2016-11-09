@@ -17,9 +17,12 @@ class DelayLineSpec extends FreeSpec with AkkaSpec with DelayLineTestData {
           .via(FilterElements.DelayLineFlow(4, 0.5))
           .runWith(Sink.seq)
           .futureValue
+
       val delayedData = delayLineOut.map( _._1)
-      val delayedAndScalaData = delayLineOut.map(_._2)
       assert(delayedData == Vector(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+
+      val delayedAndScalaData = delayLineOut.map(_._2)
+      assert(delayedAndScalaData == Vector(0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
     }
   }
 }

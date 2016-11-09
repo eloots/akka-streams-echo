@@ -3,7 +3,7 @@ package com.lightbend.demo.akkastreams
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 
-object IIRFIR extends App {
+object FIRFIR extends App {
   import FilterElements._
 
   // Make the Blueprint of an (FIR based) echo generator Flow
@@ -11,10 +11,10 @@ object IIRFIR extends App {
     List((1000, -0.3), (1500, -0.3), (4500, -0.2)).map(_.toFilterStage)
   val firBasedEcho = buildFIR(firFilterStages)
 
-  // Make the Blueprint of another (IIR based) echo generator Flow
-  val iirFilterStages =
-    List((1005, 0.3), (1490, 0.3), (4505, 0.2)).map(_.toFilterStage)
-  val iirBasedEcho = buildIIR(iirFilterStages)
+  // Make the Blueprint of another (FIR based) echo generator Flow
+  val firFilterStagesInverted =
+    List((1000, 0.3), (1500, 0.3), (4500, 0.2)).map(_.toFilterStage)
+  val firBasedEchoInverted = buildFIR(firFilterStagesInverted)
 
   // Get some sample audio data as a Source
   val waveFileName = "welcome.wav"
@@ -31,8 +31,8 @@ object IIRFIR extends App {
   // Run the flow and sink it to a wav file
   val runFlow =
   soundSource
-    .via(iirBasedEcho)
     .via(firBasedEcho)
+    .via(firBasedEchoInverted)
     .grouped(1000)
     .runForeach(d => wavOutputFile.writeFrames(d.map(_ / 2.0).toArray, d.length))
 
