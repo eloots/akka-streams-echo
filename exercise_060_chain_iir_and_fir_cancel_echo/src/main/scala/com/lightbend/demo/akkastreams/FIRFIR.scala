@@ -8,12 +8,12 @@ object FIRFIR extends App {
 
   // Make the Blueprint of an (FIR based) echo generator Flow
   val firFilterStages: List[FilterStage] =
-    List((3000, -0.3), (1500, -0.2), (4500, -0.35)).map(_.toFilterStage)
+  List((3000, -0.3), (1500, -0.2), (4500, -0.35)).map(_.toFilterStage)
   val firBasedEcho = buildFIR(firFilterStages)
 
   // Make the Blueprint of another (FIR based) echo generator Flow
   val firFilterStagesInverted =
-    List((3000, 0.3), (1500, 0.2), (4500, 0.35)).map(_.toFilterStage)
+  List((3000, 0.3), (1500, 0.2), (4500, 0.35)).map(_.toFilterStage)
   val firBasedEchoInverted = buildFIR(firFilterStagesInverted)
 
   // Get some sample audio data as a Source
