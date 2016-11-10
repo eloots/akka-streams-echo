@@ -8,7 +8,7 @@ object IIR extends App {
 
   // Make the Blueprint of the (FIR based) echo generator Flow
   val iirFilterStages: List[FilterStage] =
-  List((2000, -0.3), (1500, -0.3), (4500, -0.2)).map(_.toFilterStage)
+    List((3000, -0.3), (1500, -0.2), (4500, -0.35)).map(_.toFilterStage)
   val iirBasedEcho = buildIIR(iirFilterStages)
 
   // Get some sample audio data as a Source
