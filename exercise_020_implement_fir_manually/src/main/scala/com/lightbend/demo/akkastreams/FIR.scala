@@ -9,9 +9,9 @@ object FIR extends App {
   // Make the Blueprint of the (FIR based) echo generator Flow
   val firBasedEcho =
     FirInitial()
-      .via(DelayLineFlow(2000, -0.3))
-      .via(DelayLineFlow(1500, -0.3))
-      .via(DelayLineFlow(4500, -0.2))
+      .via(DelayLineFlow(3000, -0.3))
+      .via(DelayLineFlow(1500, -0.2))
+      .via(DelayLineFlow(4500, -0.35))
       .via(FirSelectOut())
 
   // Get some sample audio data as a Source
