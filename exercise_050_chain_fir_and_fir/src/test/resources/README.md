@@ -1,4 +1,6 @@
-chain_iir_and_fir
+chain_fir_and_fir
 
-## Simple chaining of (IIR and/or FIR) filters
+## Simple chaining of two FIR filters
+
+A naive attempt at echo cancellation
 
