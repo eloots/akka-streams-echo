@@ -6,7 +6,7 @@ lazy val base = (project in file("."))
     exercise_020_implement_fir_manually,
     exercise_030_implement_fir_streamlined,
     exercise_040_implement_iir,
-    exercise_050_chain_iir_and_fir,
+    exercise_050_chain_fir_and_fir,
     exercise_060_chain_iir_and_fir_cancel_echo
  )
   .settings(CommonSettings.commonSettings: _*)
@@ -34,7 +34,7 @@ lazy val exercise_040_implement_iir = project
   .settings(CommonSettings.commonSettings: _*)
   .dependsOn(common % "test->test;compile->compile")
 
-lazy val exercise_050_chain_iir_and_fir = project
+lazy val exercise_050_chain_fir_and_fir = project
   .settings(CommonSettings.commonSettings: _*)
   .dependsOn(common % "test->test;compile->compile")
 
