@@ -17,16 +17,12 @@ object FilterElements {
 
         val zip = b.add(Zip[Double, Double]())
         val bcast = b.add(Broadcast[Double](2))
-        // By experimentation:
-        // ... bcast ~> internalFir ~> concat doesn't work. Using an extra broadcast
-        // with a single output solves the problem.
-        // TODO: investigate why this solves the problem... There must be a fundamental cause at play...
-        val addBcast = b.add(Broadcast[Double](1))
+        val add = b.add(Flow[(Double, Double)].map { case (in, feedback) => in + feedback})
 
-        zip.out.map { case (in, feedback) => in + feedback} ~> bcast ~> internalFir ~> addBcast
-
-        zip.in1 <~ concat <~ start
-        concat <~ addBcast
+        // outside              ~>          zip.in0
+        start        ~> concat           ~> zip.in1; zip.out  ~> add ~> bcast
+        concat.in(1)     <~ internalFir       <~        bcast.out(0)
+        //      bcast.out(1) ~> outside
 
         FlowShape[Double, Double](zip.in0, bcast.out(1))
       })
