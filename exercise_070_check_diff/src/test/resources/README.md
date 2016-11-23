@@ -1,7 +1,9 @@
-cancel_echo
+cancel_echo_verification
 
-## Implement echo cancellation
+## Verify proper functioning of echo cancellation
 
-Using the appropriate combination of IIR/FIR filter, echos generated
-by a first filter can be cancelled out by a subsequent filter
+Using the GrapgDSL, we construct the flow that creates an audio stream that
+is the difference between the original audio input stream and the processed
+signal.
 
+The result indeed is **silence**

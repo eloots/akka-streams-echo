@@ -2,9 +2,9 @@ implement_a_delay_element
 
 ## This phase implements a core streams element - the DelayLine
 
-A `DelayLine` is a `Flow` element that has two input `in0` and `in1` and two outputs `out0` and `out1`
+A `DelayLine` is a `Flow` element that has two input `in`0 and `in`1 and two outputs `out`0 and `out`1
 
-Output `out0` is input stream `in0` delayed by a specified number of samples (`delay`)
-Output `out1` is the sum of `in1` and `out0` multiplied by a specified value (`scalaFactor`)
+Output `out`0 is input stream `in`0 delayed by a specified number of samples (`delay`)
+Output `out`1 is the sum of `in`1 and `out`0 multiplied by a specified value (`scaleFactor`)
 
 An FIR filter can be constructed trivially by chaining `DelayLine`s
