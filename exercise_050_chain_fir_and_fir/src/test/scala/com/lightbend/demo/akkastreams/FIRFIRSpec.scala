@@ -14,7 +14,8 @@ trait FIRFIRTestData {
     List((2, 0.3)).map(_.toFilterStage)
   val testFilter2 = buildFIR(firFilterStages2)
 
-  val unitPulse = Source(1.0d +: List.fill[Double](5)(0.0d))
+  val unitPulseData = 1.0d +: Vector.fill[Double](5)(0.0d)
+  val unitPulse = Source(unitPulseData)
 }
 
 class FIRFIRSpec extends FreeSpec with AkkaSpec with FIRFIRTestData {
@@ -25,7 +26,7 @@ class FIRFIRSpec extends FreeSpec with AkkaSpec with FIRFIRTestData {
         .via(testFilter2)
         .runWith(Sink.seq)
         .futureValue
-      //assert(firfirResponse == 1.0d +: Vector.fill[Double](5)(0.0d))
+      //assert(firfirResponse == unitPulseData)
     }
   }
 }
