@@ -4,7 +4,6 @@ import akka.NotUsed
 import akka.stream.FlowShape
 import akka.stream.scaladsl.{Broadcast, Concat, Flow, GraphDSL, Source, Zip}
 
-/* Some stupid comment */
 object FilterElements {
 
   object IIRFlow {

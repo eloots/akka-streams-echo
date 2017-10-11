@@ -3,7 +3,6 @@ package com.lightbend.demo.akkastreams
 import akka.NotUsed
 import akka.stream.scaladsl.Flow
 
-/* Some stupid comment */
 object FilterElements {
 
   def buildFIR(stages: Seq[FilterStage], initialStage: Flow[Double, (Double, Double), NotUsed] = FirInitial()) = {
