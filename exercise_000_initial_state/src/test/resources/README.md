@@ -1,5 +1,3 @@
-initial-state
+initial_state
 
-## Exercise 0 > Initial State
-
-Empty project
+## Project initial state

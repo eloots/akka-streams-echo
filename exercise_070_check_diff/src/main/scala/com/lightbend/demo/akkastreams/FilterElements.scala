@@ -93,7 +93,7 @@ object FilterElements {
   }
 
   object DelayLineFlow {
-    def apply(delay: Int, scaleFactor: Double) = {
+    def apply(delay: Int, scaleFactor: Double): Flow[(Double, Double), (Double, Double), NotUsed] = {
       Flow[(Double, Double)].statefulMapConcat { () =>
         // mutable state needs to be kept inside the stage
         val eq = Array.fill(delay)(0.0d)
@@ -111,7 +111,7 @@ object FilterElements {
   }
 
   object DelayLineFlowAlt {
-    def apply(delay: Int, scaleFactor: Double) = {
+    def apply(delay: Int, scaleFactor: Double): Flow[(Double, Double), (Double, Double), NotUsed] = {
       Flow[(Double, Double)].statefulMapConcat { () =>
         // mutable state needs to be kept inside the stage
         val eq = MQueue(List.fill(delay)(0.0d): _*)
