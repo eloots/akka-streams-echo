@@ -10,7 +10,8 @@ lazy val akka_streams_echo = (project in file("."))
     exercise_050_chain_fir_and_fir,
     exercise_060_chain_iir_and_fir_cancel_echo,
     exercise_070_check_diff,
-    exercise_080_vco
+    exercise_080_vco,
+		exercise_090_matching_streams_speeds
  )
   .settings(CommonSettings.commonSettings: _*)
 
@@ -42,5 +43,8 @@ lazy val exercise_070_check_diff = project
   .settings(CommonSettings.commonSettings: _*)
   .dependsOn(common % "test->test;compile->compile")
 lazy val exercise_080_vco = project
+  .settings(CommonSettings.commonSettings: _*)
+  .dependsOn(common % "test->test;compile->compile")
+lazy val exercise_090_matching_streams_speeds = project
   .settings(CommonSettings.commonSettings: _*)
   .dependsOn(common % "test->test;compile->compile")
