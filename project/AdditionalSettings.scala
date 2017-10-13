@@ -24,8 +24,8 @@ object AdditionalSettings {
 
   // Note that if no command aliases need to be added, assign an empty Seq to cmdAliasesIn
   val cmdAliasesIn: Seq[Def.Setting[(State) => State]] = Seq(
-    //    addCommandAlias("xxx", "help"),
-    //    addCommandAlias("yxy", "help")
+    addCommandAlias("nstep", ";nextExercise;pullSolution"),
+    addCommandAlias("pstep", ";prevExercise;pullSolution")
   ).flatten
 
   val cmdAliases: Seq[Def.Setting[(State) => State]] =
