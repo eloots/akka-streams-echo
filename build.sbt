@@ -1,5 +1,5 @@
 
-lazy val base = (project in file("."))
+lazy val akka_streams_echo = (project in file("."))
   .aggregate(
     common,
     exercise_000_initial_state,
