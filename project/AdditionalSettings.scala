@@ -5,11 +5,12 @@ import Keys._
 
 object AdditionalSettings {
 
+  // Change 'loadInitialCmds' to true when requested in exercise instructions
   val loadInitialCmds = false
 
   val initialCmdsConsole: Seq[Def.Setting[String]] =
     if (loadInitialCmds) {
-      Seq(initialCommands in console := "import com.typesafe.training.scalatrain._")
+      Seq(initialCommands in console := "import com.lightbend.training.scalatrain._")
     } else {
       Seq()
     }
@@ -23,8 +24,8 @@ object AdditionalSettings {
 
   // Note that if no command aliases need to be added, assign an empty Seq to cmdAliasesIn
   val cmdAliasesIn: Seq[Def.Setting[(State) => State]] = Seq(
-    addCommandAlias("nstep", ";nextExercise;pullSolution"),
-    addCommandAlias("pstep", ";prevExercise;pullSolution")
+    //    addCommandAlias("xxx", "help"),
+    //    addCommandAlias("yxy", "help")
   ).flatten
 
   val cmdAliases: Seq[Def.Setting[(State) => State]] =
