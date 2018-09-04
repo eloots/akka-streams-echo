@@ -24,17 +24,19 @@ object AdaptStreamRate extends App {
 
   val baseStream: Source[Double, NotUsed] =
     Source.fromIterator(() => new RandomNumberIterator)
-      .throttle(1, 500.millis, 0, ThrottleMode.Shaping)
+      .throttle(1, 2000.millis, 0, ThrottleMode.Shaping)
       .expand(i => Iterator.continually(i))
 
-  val fastStream = Source.repeat(0.0d).throttle(1, 100.millis, 1, akka.stream.ThrottleMode.Shaping)
+  val fastStream =
+    Source.cycle(() => List(0.0, 0.1, 0.2, 0.30, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0).iterator)
+      .throttle(1, 100.millis, 1, akka.stream.ThrottleMode.Shaping)
 
   val combinedStream = fastStream.zip(baseStream)
 
   val runFlow =
-    combinedStream.map { case (slow, fast) => slow + fast}
+    combinedStream.map { case (slow, fast) => (slow, fast, slow + fast)}
       .take(100)
-      .runForeach(d => println(f"$d%5.3f"))
+      .runForeach { case (n1, n2, nc) => println(f"$n1%5.3f $n2%5.3f $nc%5.3f")}
 
   runFlow flatMap { _ => actorSystem.terminate() }
 
