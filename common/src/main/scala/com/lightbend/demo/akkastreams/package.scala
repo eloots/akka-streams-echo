@@ -2,7 +2,6 @@ package com.lightbend.demo
 
 import java.io.File
 
-import akka.NotUsed
 import akka.stream.scaladsl.{Sink, Source}
 import uk.co.labbookpages.WavFile
 
@@ -10,13 +9,8 @@ package object akkastreams {
   type MQueue[A] = scala.collection.mutable.Queue[A]
   val MQueue = scala.collection.mutable.Queue
 
-  type Seq[+A] = scala.collection.immutable.Seq[A]
-  val Seq = scala.collection.immutable.Seq
-
   type Iterable[+A] = scala.collection.immutable.Iterable[A]
   val Iterable = scala.collection.immutable.Iterable
-
-  case class FilterStage(delay: Int, coefficient: Double)
 
   implicit class FilterStageOps(val s: (Int, Double)) extends AnyVal {
     def toFilterStage: FilterStage = FilterStage(s._1, s._2)
@@ -72,7 +66,4 @@ package object akkastreams {
       WaveSource(source, WaveSettings(numChannels, numFrames, validBits, sampleRate))
     }
   }
-
-  case class WaveSettings(numChannels: Int, numFrames: Long, validBits: Int, sampleRate: Long)
-  case class WaveSource(source: Source[Double, NotUsed], waveSetting: WaveSettings)
 }
