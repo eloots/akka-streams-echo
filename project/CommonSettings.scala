@@ -4,9 +4,8 @@ import sbtstudent.AdditionalSettings
 
 object CommonSettings {
   lazy val commonSettings = Seq(
-    organization := "com.lightbend.training",
-    version := "3.0.2",
-    scalaVersion := Version.scalaVer,
+    organization := "org.echo",
+    version := "1.0.0",
     scalacOptions ++= CompileOptions.compileOptions,
     unmanagedSourceDirectories in Compile := List((scalaSource in Compile).value, (javaSource in Compile).value),
     unmanagedSourceDirectories in Test := List((scalaSource in Test).value, (javaSource in Test).value),
@@ -19,4 +18,8 @@ object CommonSettings {
     AdditionalSettings.initialCmdsConsole ++
     AdditionalSettings.initialCmdsTestConsole ++
     AdditionalSettings.cmdAliases
+
+  lazy val configure: Project => Project = (project: Project) => {
+    project.settings(CommonSettings.commonSettings: _*)
+  }
 }

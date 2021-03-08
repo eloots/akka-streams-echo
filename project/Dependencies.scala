@@ -2,7 +2,7 @@ import sbt._
 
 object Version {
   val akkaVer         = "2.6.13"
-  val scalaVer        = "2.13.5"
+  val scalaVersion    = "2.13.5"
   val scalaTestVer    = "3.2.5"
   val logbackVer      = "1.2.3"
 
