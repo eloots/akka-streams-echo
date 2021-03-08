@@ -129,7 +129,6 @@ object FilterElements {
     def apply(period: Int, min: Double, max: Double): Source[Double, NotUsed] = {
       val intSource = Source.fromIterator(() => Iterator.from(0))
       intSource.statefulMapConcat { () =>
-        var direction: Int = 1
         val incr = (max - min) / period
 
         { y =>
