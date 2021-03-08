@@ -1,7 +1,7 @@
 package com.lightbend.demo.akkastreams
 
 import akka.stream.scaladsl.{Sink, Source}
-import org.scalatest.FreeSpec
+import org.scalatest.freespec._
 
 trait IIRTestData {
   import FilterElements._
@@ -14,7 +14,7 @@ trait IIRTestData {
   val unitPulse = Source(1.0d +: List.fill[Double](21)(0.0d))
 }
 
-class IIRSpec extends FreeSpec with AkkaSpec with IIRTestData {
+class IIRSpec extends AnyFreeSpec with AkkaSpec with IIRTestData {
   "An FIR filter when fed a unit pulse" - {
     "should preduce delayed pulses at the expected delays" in {
       val firResponse = unitPulse
