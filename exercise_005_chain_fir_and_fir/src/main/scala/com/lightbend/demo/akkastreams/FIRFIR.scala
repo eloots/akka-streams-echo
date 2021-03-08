@@ -1,7 +1,6 @@
 package com.lightbend.demo.akkastreams
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 
 object FIRFIR extends App {
   import FilterElements._
@@ -26,7 +25,6 @@ object FIRFIR extends App {
 
   implicit val actorSystem = ActorSystem()
   import actorSystem.dispatcher
-  implicit val flowMaterializer = ActorMaterializer()
 
   // Run the flow and sink it to a wav file
   val runFlow =

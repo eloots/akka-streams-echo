@@ -1,7 +1,7 @@
 package com.lightbend.demo.akkastreams
 
 import akka.stream.scaladsl.{Sink, Source}
-import org.scalatest.FreeSpec
+import org.scalatest.freespec._
 
 trait FIRFIRTestData {
   import FilterElements._
@@ -11,22 +11,22 @@ trait FIRFIRTestData {
   val testFilter1 = buildFIR(firFilterStages1)
 
   val firFilterStages2: List[FilterStage] =
-    List((2, 0.3)).map(_.toFilterStage)
+    List((3, 0.5)).map(_.toFilterStage)
   val testFilter2 = buildFIR(firFilterStages2)
 
-  val unitPulseData = 1.0d +: Vector.fill[Double](5)(0.0d)
+  val unitPulseData = 1.0d +: Vector.fill[Double](6)(0.0d)
   val unitPulse = Source(unitPulseData)
 }
 
-class FIRFIRSpec extends FreeSpec with AkkaSpec with FIRFIRTestData {
-  "An FIR filter when fed a unit pulse" -  {
+class FIRFIRSpec extends AnyFreeSpec with AkkaSpec with FIRFIRTestData {
+  "Two chained FIR filters when fed a unit pulse" -  {
     "should preduce delayed pulses at the expected delays" in {
       val firfirResponse = unitPulse
         .via(testFilter1)
         .via(testFilter2)
         .runWith(Sink.seq)
         .futureValue
-      //assert(firfirResponse == unitPulseData)
+      assert(firfirResponse == Vector(1.0, 0.0, -0.3, 0.5, 0.0, -0.15, 0.0))
     }
   }
 }
