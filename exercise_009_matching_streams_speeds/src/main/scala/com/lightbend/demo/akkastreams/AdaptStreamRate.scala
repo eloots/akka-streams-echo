@@ -3,8 +3,7 @@ package com.lightbend.demo.akkastreams
 import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.Source
-import akka.stream.{ActorMaterializer, ThrottleMode}
-import com.lightbend.demo.akkastreams.FilterElements.{VCO, buildIIR}
+import akka.stream.ThrottleMode
 
 import scala.concurrent.duration._
 
@@ -12,7 +11,6 @@ object AdaptStreamRate extends App {
 
   implicit val actorSystem = ActorSystem()
   import actorSystem.dispatcher
-  implicit val flowMaterializer = ActorMaterializer()
 
   class RandomNumberIterator extends Iterator[Double] {
     import scala.util.Random
