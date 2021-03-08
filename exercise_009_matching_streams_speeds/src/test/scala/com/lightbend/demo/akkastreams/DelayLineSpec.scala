@@ -1,13 +1,13 @@
 package com.lightbend.demo.akkastreams
 
 import akka.stream.scaladsl.{Sink, Source}
-import org.scalatest.FreeSpec
+import org.scalatest.freespec._
 
 trait DelayLineTestData {
   val unitPulse = Source(1.0d +: List.fill[Double](10)(0.0d))
 }
 
-class DelayLineSpec extends FreeSpec with AkkaSpec with DelayLineTestData {
+class DelayLineSpec extends AnyFreeSpec with AkkaSpec with DelayLineTestData {
 
   "DelayLine" - {
     "should delay and scale a unit pulse by the specified number of samples and scale factor" in {
