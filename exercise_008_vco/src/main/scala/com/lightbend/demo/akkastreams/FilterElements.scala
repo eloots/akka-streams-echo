@@ -35,7 +35,7 @@ object FilterElements {
         import GraphDSL.Implicits._
 
         val bcast = b.add(Broadcast[Double](2))
-        val zip = b.add(Zip[Double, Double])
+        val zip = b.add(Zip[Double, Double]())
         val diff = b.add(Flow[(Double, Double)].map { case (s1, s2) => s1 - s2})
 
         // input                    ~> bcast.in
