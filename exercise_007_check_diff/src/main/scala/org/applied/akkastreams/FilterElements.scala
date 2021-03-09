@@ -6,6 +6,10 @@ import akka.stream.scaladsl.{Broadcast, Concat, Flow, GraphDSL, Source, Zip}
 
 object FilterElements {
 
+  def invertFilterCoefficients: PartialFunction[FilterStage, FilterStage] = {
+    case FilterStage(delay, coefficient) => FilterStage(delay, -coefficient)
+  }
+  
   object IIRFlow {
 
     def apply(internalFir: Flow[Double, Double, NotUsed]) = {
