@@ -1,4 +1,4 @@
-package com.lightbend.demo.akkastreams
+package org.applied.akkastreams
 
 import akka.NotUsed
 import akka.stream.scaladsl.Flow

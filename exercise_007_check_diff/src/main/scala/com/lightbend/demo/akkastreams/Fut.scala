@@ -1,4 +1,4 @@
-package com.lightbend.demo.akkastreams
+package org.applied.akkastreams
 
 import scala.concurrent.{ Future, blocking }
 

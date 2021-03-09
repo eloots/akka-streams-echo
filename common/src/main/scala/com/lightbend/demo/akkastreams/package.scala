@@ -1,4 +1,4 @@
-package com.lightbend.demo
+package org.applied
 
 import java.io.File
 
