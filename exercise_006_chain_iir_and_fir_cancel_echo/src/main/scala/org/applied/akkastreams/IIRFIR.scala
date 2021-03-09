@@ -5,10 +5,6 @@ import akka.actor.ActorSystem
 object IIRFIR extends App {
   import FilterElements._
 
-  def invertFilterCoefficients: PartialFunction[FilterStage, FilterStage] = {
-    case FilterStage(delay, coefficient) => FilterStage(delay, -coefficient)
-  }
-
   // Make the Blueprint of an (FIR based) echo generator Flow
   val firFilterStages: List[FilterStage] =
     List((2000, -0.3), (1500, -0.3), (4500, -0.2)).map(_.toFilterStage)
